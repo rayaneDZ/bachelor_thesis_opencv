@@ -6,6 +6,8 @@ import time
 
 io.setmode(io.BOARD)
 
+print("hey the face identification program is running")
+
 red = 7
 green = 11
 servo = 13
@@ -60,7 +62,7 @@ while True:
             #if name == "rayane":
             times = times + 1
 
-            if times == 5:
+            if times == 1:
                 io.output(red, 0)
                 io.output(green, 1)
                 p_buzzer.start(90)

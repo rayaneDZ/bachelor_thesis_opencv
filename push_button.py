@@ -9,7 +9,7 @@ io.output(7, 0)
 try:
 	while True:
 		if io.input(18):
-			os.system("python identification.py")
+			os.system("/home/pi/.virtualenvs/cv/bin/python identification.py")
 			print("called from push button")
 except KeyboardInterrupt:
 	io.cleanup()
