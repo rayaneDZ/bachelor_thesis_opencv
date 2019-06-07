@@ -4,7 +4,13 @@ This projects is a Face Identification Program implemented in Python using OpenC
 
 In order for this program to run on a RaspberryPi just after it boots up, you have to :
 
-1. Add on_reboot.sh to home/pi
+1. Add on_reboot.sh file to /home/pi and make it excutable :
+
+~~~
+touch on_reboot.sh
+sudo chmod +755 on_reboot.sh
+~~~
+
 2. Add this code to on_reboot.sh
 
 ~~~
