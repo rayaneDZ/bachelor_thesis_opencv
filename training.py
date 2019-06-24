@@ -25,14 +25,12 @@ for root, dirs, files in os.walk(image_dir):
         if file.endswith('png') or file.endswith('jpg') or file.endswith('jpeg'):
             path = os.path.join(root, file)
             label = os.path.basename(root)
-            #print(label, path)
             # create a dictionary "label_ids" that has key-value pairs as : label-id
             if not label in label_ids:
                 label_ids[label] = current_id
                 current_id += 1
             id_ = label_ids[label]
             # convert image to grayscale
-            print(path)
             pil_image = Image.open(path).convert("L")
             # convert image to numpy array
             image_array = np.array(pil_image, 'uint8')
