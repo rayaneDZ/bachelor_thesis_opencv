@@ -3,25 +3,18 @@ import numpy as np
 import pickle
 import RPi.GPIO as io
 import time
+import lcddriver
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 
-print("Face Identification Program is running...")
-
 io.setmode(io.BOARD)
+display = lcddriver.lcd()
 
-red = 7
-green = 11
 servo = 13
 
-io.setup(red, io.OUT)
-io.setup(green, io.OUT)
 io.setup(servo, io.OUT)
 
 p_servo = io.PWM(servo, 50)
-
-io.output(red, 1)
-io.output(green, 0)
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -37,8 +30,9 @@ camera.ISO = 800
 camera.resolution = (640, 480)
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
-times = 0
 done = False
+
+display.lcd_display_string(" recognizing...", 1)
 
 while True:
 
@@ -71,18 +65,14 @@ while True:
             
             #write name on img
             cv2.putText(img, name, (x, (y - 10)), font, 1,color, stroke, cv2.LINE_AA)
-            
-            
-            if name == "rayane":
-                times = times + 1
 
-            #if recognized five times turn on green led and the servo motor and buzzer
-            if times == 5:
-                #io.output(red, 0)
-                #io.output(green, 1)
-                #p_servo.start(12.5)
-                #time.sleep(5)
-                done = True
+            #p_servo.start(12.5)
+            #time.sleep(5)
+            done = True
+            
+            display.lcd_clear()
+            display.lcd_display_string("   recognized!", 1)
+            display.lcd_display_string("    %s" %name, 2)
 
         #draw a rectangle around the face
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
@@ -105,6 +95,6 @@ cv2.destroyAllWindows()
 p_servo.ChangeDutyCycle(2.5)
 time.sleep(1)
 p_servo.stop()
-
+display.lcd_clear()
 #clean IO
 io.cleanup()
